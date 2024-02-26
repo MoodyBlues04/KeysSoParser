@@ -1,0 +1,5 @@
+venv/
+logs/
+db.sqlite3
+.env
+credentials.json
