@@ -7,3 +7,4 @@ requests~=2.31.0
 Django~=5.0.1
 python-json-logger
 pygsheets
+django_apscheduler

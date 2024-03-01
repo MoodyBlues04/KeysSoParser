@@ -1,3 +1,5 @@
+import logging
+
 from django.core.management.base import BaseCommand
 from base.logger import Logger
 from base.services.keys_so_parsing_service import KeysSoParsingService
@@ -12,12 +14,12 @@ class Command(BaseCommand):
         parser.add_argument('--share', type=str, help="Email or domain to share sheet to")
 
     def handle(self, *args, **options):
-        try:
-            self.stdout.write('parsing keys.so ...')
+        self.stdout.write('parsing keys.so ...')
 
-            self.__validate_options(options)
+        self.__validate_options(options)
 
-            for search_str in options['search'].split(','):
+        for search_str in options['search'].split(','):
+            try:
                 if not len(search_str):
                     continue
                 KeysSoParsingService.execute(
@@ -25,12 +27,12 @@ class Command(BaseCommand):
                     options['sheet_id'],
                     options.get('share')
                 )
+            except Exception as e:
+                self.stdout.write(f"Error occured: {str(e)}")
+                Logger.error('Rsya parse error', {'message': str(e)})
+                raise e
 
-            self.stdout.write('Parsing done successfully.')
-        except Exception as e:
-            self.stdout.write(f"Error occured: {str(e)}")
-            Logger.error('Rsya parse error', {'message': str(e)})
-            raise e
+        self.stdout.write('Parsing done successfully.')
 
     def __validate_options(self, options: dict) -> None:
         required_options = ['search', 'sheet_id']
