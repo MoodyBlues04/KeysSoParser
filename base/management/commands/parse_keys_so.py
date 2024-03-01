@@ -30,7 +30,6 @@ class Command(BaseCommand):
             except Exception as e:
                 self.stdout.write(f"Error occured: {str(e)}")
                 Logger.error('Rsya parse error', {'message': str(e)})
-                raise e
 
         self.stdout.write('Parsing done successfully.')
 
