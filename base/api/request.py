@@ -10,6 +10,10 @@ class FilterRequest:
     def __init__(self, filter_field: str, filter_type: str, target: str):
         self.__add_filter(filter_field, filter_type, target)
 
+    @property
+    def target(self) -> str:
+        return self.__filters[0]['target']
+
     def and_filter(self, filter_field: str, filter_type: str, target: str) -> None:
         self.__add_filter(filter_field, filter_type, target)
         self.__operands.append(self.AND)
