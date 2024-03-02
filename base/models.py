@@ -1,5 +1,6 @@
 from __future__ import annotations
 from django.db import models
+from base.helpers.url_helper import UrlHelper
 
 
 class Ads(models.Model):
@@ -42,9 +43,13 @@ class Ads(models.Model):
         return Ads.objects.filter(id=id).first()
 
     @classmethod
-    def is_domain_to_save(cls, domain: str) -> bool:
-        return domain in Ads.SOCIAL_NETWORK_DOMAINS or \
-            Ads.objects.filter(domain=domain).first() is None
+    def is_url_to_save(cls, url: str) -> bool:
+        url_helper = UrlHelper(url)
+        domain = url_helper.get_domain()
+        clear_url = url_helper.remove_query_params()
+
+        return (domain in Ads.SOCIAL_NETWORK_DOMAINS and Ads.objects.filter(url=clear_url).first() is None
+                or Ads.objects.filter(domain=domain).first() is None)
 
     @classmethod
     def query_by_parsed_at(cls, parsed_at):

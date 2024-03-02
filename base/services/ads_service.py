@@ -23,8 +23,8 @@ class AdsService:
                 Logger.error('Rsya invalid api data', api_serializer.errors)
                 continue
 
-            ad_domain = api_serializer.get_domain(api_serializer.validated_data['target_url'])
-            if not Ads.is_domain_to_save(ad_domain) or Ads.get_by_remote_id(api_serializer.validated_data['id']) is not None:
+            ad_url = api_serializer.validated_data['target_url']
+            if not Ads.is_url_to_save(ad_url) or Ads.get_by_remote_id(api_serializer.validated_data['id']) is not None:
                 continue
 
             ads_data = api_serializer.get_rsya_ads_data(iterator.get_request().filter.target)

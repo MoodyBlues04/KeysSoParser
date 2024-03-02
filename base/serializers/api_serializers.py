@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from datetime import datetime
 from urllib.parse import urlparse
+from base.helpers.url_helper import UrlHelper
 
 
 class KeysSoRsyaSerializer(serializers.Serializer):
@@ -24,13 +25,10 @@ class KeysSoRsyaSerializer(serializers.Serializer):
         return {
             'target_word': target_word,
             'url': url,
-            'domain': self.get_domain(url),
+            'domain': UrlHelper(url).get_domain(),
             'title': self.validated_data['title'],
             'description': self.validated_data['body'],
             'remote_id': self.validated_data['id'],
             'founded_at': self.validated_data['found_at'],
             'parsed_at': datetime.now(),
         }
-
-    def get_domain(self, url: str) -> str:
-        return urlparse(url).netloc
