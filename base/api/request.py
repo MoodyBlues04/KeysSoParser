@@ -1,11 +1,40 @@
 class FilterRequest:
-    def __init__(self, target: str, filter_field: str, filter_type: str = 'LIKE'):
-        self.target = target
-        self.filter_field = filter_field
-        self.filter_type = filter_type
+    LIKE = 'LIKE'
+    NOT_LIKE = 'NOT LIKE'
+    AND = '^'
+    OR = '^OR'
+
+    __filters: list = []
+    __operands: list = []
+
+    def __init__(self, filter_field: str, filter_type: str, target: str):
+        self.__add_filter(filter_field, filter_type, target)
+
+    def and_filter(self, filter_field: str, filter_type: str, target: str) -> None:
+        self.__add_filter(filter_field, filter_type, target)
+        self.__operands.append(self.AND)
+
+    def or_filter(self, filter_field: str, filter_type: str, target: str) -> None:
+        self.__add_filter(filter_field, filter_type, target)
+        self.__operands.append(self.OR)
 
     def get_request_str(self) -> str:
-        return f"{self.filter_field}{self.filter_type}{self.target}"
+        query = self.__get_filter_str(0)
+        for index in range(1, len(self.__filters)):
+            query += self.__operands[index - 1]
+            query += self.__get_filter_str(index)
+        return query
+
+    def __get_filter_str(self, index: int) -> str:
+        filters = self.__filters[index]
+        return f"{filters['filter_field']}{filters['filter_type']}{filters['target']}"
+
+    def __add_filter(self, filter_field: str, filter_type: str, target: str) -> None:
+        self.__filters.append({
+            'target': target,
+            'filter_field': filter_field,
+            'filter_type': filter_type,
+        })
 
 
 class RsyaAdsRequest:
