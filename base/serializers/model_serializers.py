@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from base.models import Ads, CronJob
+from base.helpers.url_helper import UrlHelper
 
 
 class AdsSerializer(serializers.ModelSerializer):
@@ -8,6 +9,7 @@ class AdsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, validated_data):
+        validated_data['url'] = UrlHelper(validated_data['url']).remove_query_params()
         return Ads.objects.create(**validated_data)
 
 

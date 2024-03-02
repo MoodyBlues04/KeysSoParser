@@ -31,7 +31,6 @@ class AdsService:
             model_serializer = AdsSerializer(data=ads_data)
             if not model_serializer.is_valid():
                 Logger.error('Rsya invalid model data to save', model_serializer.errors)
-                print(model_serializer.errors)
                 continue
             ad = model_serializer.save()
             new_ads.append(ad.id)
