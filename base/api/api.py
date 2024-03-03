@@ -22,7 +22,6 @@ class KeysSoApi(Api):
     def get_rsya_ads(self, request: RsyaAdsRequest) -> RsyaAdsResponse:
         url = f"{self.__BASE_URL}/report/ads/rsya"
 
-        print(request.get_request())
         response = self.get(url, params=request.get_request(), headers=self.__get_auth_headers())
         return RsyaAdsResponse(response)
 

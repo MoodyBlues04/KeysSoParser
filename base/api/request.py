@@ -8,6 +8,8 @@ class FilterRequest:
     __operands: list = []
 
     def __init__(self, filter_field: str, filter_type: str, target: str):
+        self.__filters = []
+        self.__operands = []
         self.__add_filter(filter_field, filter_type, target)
 
     @property

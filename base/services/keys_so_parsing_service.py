@@ -26,4 +26,6 @@ class KeysSoParsingService:
             if len(stop_word):
                 filter_request.and_filter('title', FilterRequest.NOT_LIKE, stop_word)
         request = RsyaAdsRequest(filter=filter_request)
+
+        print(search_target, stop_words, request.filter.get_request_str())
         return RsyaAdsSearchIterator(api, request)
