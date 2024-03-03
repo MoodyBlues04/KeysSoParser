@@ -4,8 +4,8 @@ class FilterRequest:
     AND = '^'
     OR = '^OR'
 
-    __filters: list = []
-    __operands: list = []
+    __filters: list
+    __operands: list
 
     def __init__(self, filter_field: str, filter_type: str, target: str):
         self.__filters = []
@@ -26,7 +26,7 @@ class FilterRequest:
 
     def get_request_str(self) -> str:
         query = self.__get_filter_str(0)
-        for index in range(1, min(len(self.__filters), len(self.__operands) + 1)):
+        for index in range(1, len(self.__filters)):
             query += self.__operands[index - 1]
             query += self.__get_filter_str(index)
         return query
