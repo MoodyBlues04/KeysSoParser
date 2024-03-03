@@ -31,7 +31,7 @@ class Command(BaseCommand):
                 KeysSoParsingService.execute(
                     search_str,
                     options['sheet_id'],
-                    stop_words=options['stop_words'].split(','),
+                    stop_words=stop_words,
                     share=options.get('share')
                 )
             except Exception as e:
