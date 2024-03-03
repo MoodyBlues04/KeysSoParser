@@ -35,7 +35,8 @@ class Command(BaseCommand):
                     share=options.get('share')
                 )
             except Exception as e:
-                self.stdout.write(f"Error occured: {str(e)} {e.__traceback__}")
+                import traceback
+                self.stdout.write(f"Error occured: {str(e)} {traceback.extract_tb(e.__traceback__)}")
                 Logger.error('Rsya parse error', {'message': str(e)})
 
         self.stdout.write('Parsing done successfully.')
