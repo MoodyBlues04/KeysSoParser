@@ -21,7 +21,8 @@ class Command(BaseCommand):
         self.__validate_options(options)
 
         stop_words = self.__settings_stop_words()
-        stop_words += options['stop_words'].split(',')
+        if options.get('stop_words'):
+            stop_words += options['stop_words'].split(',')
 
         for search_str in options['search'].split(','):
             try:
